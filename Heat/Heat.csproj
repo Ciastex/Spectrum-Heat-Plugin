@@ -33,6 +33,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>..\Spectrum\Spectrum.Dependencies\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Spectrum.API, Version=1.0.51.5909, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\Spectrum\Spectrum.API\bin\Debug\Spectrum.API.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

@@ -1,8 +1,8 @@
 ﻿using Spectrum.API.Interfaces.Plugins;
 using Spectrum.API.Interfaces.Systems;
 using Spectrum.API.Configuration;
-using Spectrum.Interop.Game;
 using System;
+using UnityEngine;
 
 namespace Spectrum.Plugins.Heat
 {
@@ -13,6 +13,7 @@ namespace Spectrum.Plugins.Heat
     {
         private bool toggled = false;
         private double warningThreshold;
+        private UILabel watermark;
         private Units units;
         private Display display;
         private Activation activation;
@@ -23,10 +24,16 @@ namespace Spectrum.Plugins.Heat
             _settings = new Settings("Heat.plugin");
             ValidateSettings();
             units = (Units)Enum.Parse(typeof(Units), _settings.GetItem<string>("units"));
+            
             display = (Display)Enum.Parse(typeof(Display), _settings.GetItem<string>("display"));
+            if (display == Display.watermark)
+            {
+                watermark = getAndActivateWatermark();
+            }
+            
             activation = (Activation)Enum.Parse(typeof(Activation), _settings.GetItem<string>("activation"));
             warningThreshold = _settings.GetItem<double>("warningThreshold");
-            manager.Hotkeys.Bind(_settings.GetItem<string>("toggleHotkey"), () => { toggled = !toggled; Game.WatermarkText = ""; });
+            manager.Hotkeys.Bind(_settings.GetItem<string>("toggleHotkey"), () => { toggled = !toggled; watermark.text = ""; });
         }
 
         public void Update()
@@ -36,10 +43,21 @@ namespace Spectrum.Plugins.Heat
                 if (display == Display.hud)
                     SetHUDText(DisplayText());
                 else
-                    Game.WatermarkText = DisplayText();
+                    watermark.text = DisplayText();
             }
-
         }
+
+        private UILabel getAndActivateWatermark()
+        {
+            var anchorAlphaVersion = GameObject.Find("UI Root").transform.Find("Panel/Anchor : AlphaVersion");
+            var alphaVersion = anchorAlphaVersion.Find("AlphaVersion");
+            
+            anchorAlphaVersion.gameObject.SetActive(true);
+            alphaVersion.gameObject.SetActive(true);
+
+            return alphaVersion.GetComponent<UILabel>();
+        }
+        
         private string HeatPercent()
         {
             return Convert.ToInt32(GetHeatLevel() * 100).ToString() + "% Heat";
