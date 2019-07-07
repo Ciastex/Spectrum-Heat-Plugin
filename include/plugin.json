@@ -2,11 +2,8 @@
     "FriendlyName": "Heat",
     "Author": "pigpenguin",
     "AuthorContact": "pigpenguin@gmail.com",
-    "CompatibleAPILevel": 6,
     "IPCIdentifier": "Heat",
 
     "ModuleFileName": "Heat.dll",
     "EntryClassName": "Entry",
-
-    "Dependencies": []
 }
