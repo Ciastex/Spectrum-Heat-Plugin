@@ -1,9 +1,9 @@
 {
     "FriendlyName": "Heat",
-    "Author": "pigpenguin",
-    "AuthorContact": "pigpenguin@gmail.com",
+    "Author": "Seekr + pigpenguin",
+    "AuthorContact": "Discord: Seekr#3274; Steam: Seeker14491",
     "IPCIdentifier": "Heat",
 
     "ModuleFileName": "Heat.dll",
-    "EntryClassName": "Entry",
+    "EntryClassName": "E",
 }
