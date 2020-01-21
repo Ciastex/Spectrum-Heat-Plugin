@@ -13,3 +13,7 @@ This is a plugin for the [Spectrum](https://github.com/Ciastex/Spectrum) modific
 **warningThreshold:** How much heat is needed to trigger the display, if using warning mode. Acceptable values are any number between 0.0 and 1.0.
 
 **toggleHotkey:** The hotkey to use when using toggle mode.
+
+## Credits
+
+This plugin was forked from @pigpenguin's [original](https://github.com/pigpenguin/Spectrum-Heat-Plugin).
