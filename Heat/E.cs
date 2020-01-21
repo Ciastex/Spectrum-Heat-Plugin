@@ -1,4 +1,4 @@
-using Spectrum.API.Interfaces.Plugins;
+﻿using Spectrum.API.Interfaces.Plugins;
 using Spectrum.API.Interfaces.Systems;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Logger = Spectrum.API.Logging.Logger;
 using RawSettings = Spectrum.API.Configuration.Settings;
+using Harmony;
 
 namespace Heat
 {
@@ -71,7 +72,7 @@ namespace Heat
                 case Display.Hud:
                     if (DisplayEnabled())
                     {
-                    SetHudText(text);
+                        SetHudText(text);
                     }
 
                     break;
@@ -96,6 +97,9 @@ namespace Heat
 
         private string Speed(Units units)
         {
+            var speed = _gameState.CarStats
+                ? Traverse.Create(_gameState.CarStats).Method("GetSpeed").GetValue<float>()
+                : 0f;
             switch (units)
             {
                 case Units.Automatic:
@@ -108,10 +112,11 @@ namespace Heat
                         goto case Units.Kph;
                     }
                 case Units.Kph:
-                    return
-                        $"{Convert.ToInt32(_gameState.CarStats ? _gameState.CarStats.GetKilometersPerHour() : 0f)} KPH";
+                    var kph = speed * 3.6f;
+                    return $"{kph:N0} KPH";
                 case Units.Mph:
-                    return $"{Convert.ToInt32(_gameState.CarStats ? _gameState.CarStats.GetMilesPerHour() : 0f)} MPH";
+                    var mph = speed * 2.23694f;
+                    return $"{mph:N0} MPH";
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -119,7 +124,7 @@ namespace Heat
 
         private string DisplayText(Units units)
         {
-            return $"{Convert.ToInt32(GetHeatLevel() * 100)}% Heat\n{Speed(units)}";
+            return $"{GetHeatLevel():P0} Heat\n{Speed(units)}";
         }
 
         private bool DisplayEnabled()
