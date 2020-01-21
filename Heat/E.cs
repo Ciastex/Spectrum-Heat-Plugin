@@ -1,4 +1,4 @@
-﻿using Spectrum.API.Interfaces.Plugins;
+using Spectrum.API.Interfaces.Plugins;
 using Spectrum.API.Interfaces.Systems;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -68,8 +68,12 @@ namespace Heat
 
             switch (_settings.Display)
             {
-                case Display.Hud when DisplayEnabled():
+                case Display.Hud:
+                    if (DisplayEnabled())
+                    {
                     SetHudText(text);
+                    }
+
                     break;
                 case Display.Watermark:
                     _watermark.text = text;
